@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import PhotosUI
 
 
 struct AddClothingItem: View{
@@ -14,6 +15,8 @@ struct AddClothingItem: View{
     @State private var selectedItemType: ClothingItem.ClothingType = .Top
     @State private var itemName: String = ""
     @State private var itemColor: String = ""
+    @State private var photoItem: PhotosPickerItem?
+    @State private var itemImage: Image = Image(systemName: "tshirt.fill")
     @FocusState private var nameFieldIsFocused: Bool
     @EnvironmentObject var closet: Closet
     
@@ -31,6 +34,22 @@ struct AddClothingItem: View{
                     
                     TextField("Enter Item Name", text: $itemName)
                     TextField("Enter Item Color", text: $itemColor)
+                    
+                    PhotosPicker("Choose Image", selection: $photoItem, matching: .images)
+                            itemImage
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 300, height: 300)
+                            .onChange(of: photoItem) {
+                                Task {
+                                    if let loaded = try? await photoItem?.loadTransferable(type: Image.self) {
+                                        itemImage = loaded
+                                    } else {
+                                        print("Failed")
+                                    }
+                                }
+                            }
+ 
                 }
                 HStack{
                     Spacer()
@@ -59,7 +78,7 @@ struct AddClothingItem: View{
         }
     }
     func addTop(){
-        let new = ClothingItem.Top(name:itemName,color:itemColor);
+        let new = ClothingItem.Top(name:itemName,color:itemColor,image:itemImage);
         closet.addTop(top:new)
         dismiss()
     }

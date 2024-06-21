@@ -8,15 +8,8 @@
 import SwiftUI
 
 struct Home: View {
-    @State private var showingSheet = false
     var body: some View {
-        
-        Button("Show Sheet"){
-            showingSheet.toggle()
-        }
-        .sheet(isPresented: $showingSheet){
-            AddClothingItem()
-        }
+        Rectangle()
     }
 }
 

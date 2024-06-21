@@ -19,6 +19,7 @@
 		A700BA212BCB7BC40011F033 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = A700BA202BCB7BC40011F033 /* Profile.swift */; };
 		A700BA252BCB7C2A0011F033 /* AddClothingItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A700BA242BCB7C2A0011F033 /* AddClothingItem.swift */; };
 		A700BA272BCB7C560011F033 /* ClothingItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A700BA262BCB7C560011F033 /* ClothingItem.swift */; };
+		A7CF9BAA2C126A5600FEDAF1 /* DetailedClothingItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CF9BA92C126A5600FEDAF1 /* DetailedClothingItem.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +57,7 @@
 		A700BA202BCB7BC40011F033 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		A700BA242BCB7C2A0011F033 /* AddClothingItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddClothingItem.swift; sourceTree = "<group>"; };
 		A700BA262BCB7C560011F033 /* ClothingItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClothingItem.swift; sourceTree = "<group>"; };
+		A7CF9BA92C126A5600FEDAF1 /* DetailedClothingItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedClothingItem.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -166,6 +168,7 @@
 			isa = PBXGroup;
 			children = (
 				A700BA242BCB7C2A0011F033 /* AddClothingItem.swift */,
+				A7CF9BA92C126A5600FEDAF1 /* DetailedClothingItem.swift */,
 			);
 			path = Popups;
 			sourceTree = "<group>";
@@ -300,6 +303,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A7CF9BAA2C126A5600FEDAF1 /* DetailedClothingItem.swift in Sources */,
 				A700B9EF2BCB7A590011F033 /* ContentView.swift in Sources */,
 				A700BA212BCB7BC40011F033 /* Profile.swift in Sources */,
 				A700BA252BCB7C2A0011F033 /* AddClothingItem.swift in Sources */,

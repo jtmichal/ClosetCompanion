@@ -44,6 +44,7 @@ struct ClosetView: View {
     @Environment(\.dismiss) var dismiss
     @State private var showingSheet = false
     @EnvironmentObject var closet: Closet
+    //Environment Object shares data across multiple views
     
     var body: some View {
         
@@ -98,11 +99,13 @@ struct ClosetView: View {
 
 struct Row: View{
     @EnvironmentObject var closet: Closet
+    @State private var showingItemDetails = false
+    @State private var passedItem = ClothingItem.Top() //value to be passed to detailedClothingItem
     var itemType : String
     var topsPile : [ClothingItem.Top]
     var bottomsPile : [ClothingItem.Bottom]
     var footwearPile : [ClothingItem.Footwear]
-    
+
     let new = ClothingItem.Top()
     
     var body: some View{
@@ -110,12 +113,20 @@ struct Row: View{
         case "tops":
             ScrollView(.horizontal){
                 HStack(spacing:20){
-                    if !topsPile.isEmpty{
                         ForEach(topsPile) {top in
-                            Image(systemName: "tshirt.fill")
+                            top.image
+                                .resizable()
+                                .imageScale(.large)
+                                .scaledToFit()
+                                .aspectRatio(contentMode: .fit)
+                                .onTapGesture {
+                                    showingItemDetails.toggle()
+                                    passedItem = top;
+                                }
                         }
-                        .imageScale(.large)
-                    }
+                        .sheet(isPresented: $showingItemDetails){
+                            DetailedClothingItem(clothingItem: $passedItem)
+                        }
                 }
             }
             .padding(0.0)

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 struct ClothingItem {
     
@@ -16,18 +17,21 @@ struct ClothingItem {
     struct Top: Identifiable{
         var name: String = ""
         var color: String = ""
+        var image: Image = Image(systemName: "tshirt.fill")
         let id = UUID()
     }
 
     struct Bottom: Identifiable{
         var name: String = ""
         var color: String = ""
+        var image: Image = Image(systemName: "tshirt.fill")
         let id = UUID()
     }
 
     struct Footwear: Identifiable{
         var name: String = ""
         var color: String = ""
+        var image: Image = Image(systemName: "tshirt.fill")
         let id = UUID()
     }
     
