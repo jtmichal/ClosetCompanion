@@ -8,31 +8,31 @@
 import Foundation
 import SwiftUI
 
-struct ClothingItem {
+struct ClothingItem: Identifiable {
     
-    enum ClothingType: String, CaseIterable{
-        case Top, Bottom, Footwear
-    }
-    
-    struct Top: Identifiable{
-        var name: String = ""
-        var color: String = ""
-        var image: Image = Image(systemName: "tshirt.fill")
-        let id = UUID()
-    }
+//    enum ClothingType: String, CaseIterable{
+//        case Top, Bottom, Footwear
+//    }
 
-    struct Bottom: Identifiable{
-        var name: String = ""
-        var color: String = ""
-        var image: Image = Image(systemName: "tshirt.fill")
-        let id = UUID()
-    }
-
-    struct Footwear: Identifiable{
-        var name: String = ""
-        var color: String = ""
-        var image: Image = Image(systemName: "tshirt.fill")
-        let id = UUID()
-    }
+    var name: String = ""
+    var color: String = ""
+    var image: Image = Image(systemName: "tshirt.fill")
+    var category: String = ""
+    let id = UUID()
+//    }
+//
+//    struct Bottom: Identifiable{
+//        var name: String = ""
+//        var color: String = ""
+//        var image: Image = Image(systemName: "tshirt.fill")
+//        let id = UUID()
+//    }
+//
+//    struct Footwear: Identifiable{
+//        var name: String = ""
+//        var color: String = ""
+//        var image: Image = Image(systemName: "tshirt.fill")
+//        let id = UUID()
+//    }
     
 }

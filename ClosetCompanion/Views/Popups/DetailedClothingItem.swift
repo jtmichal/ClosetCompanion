@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 struct DetailedClothingItem: View{
-    @Binding var clothingItem : ClothingItem.Top
+    @Binding var clothingItem : ClothingItem
     
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var closet: Closet
@@ -19,6 +19,8 @@ struct DetailedClothingItem: View{
                 .padding()
             LabeledContent("Color: ", value: clothingItem.color)
                 .padding()
+            LabeledContent("Category: ", value: clothingItem.category)
+                .padding()
             clothingItem.image
                 .resizable()
                 .frame(width: 150, height: 150)
@@ -27,7 +29,7 @@ struct DetailedClothingItem: View{
 }
 
 struct DetailedClothingItem_Previews: PreviewProvider {
-    @State static var clothingItem = ClothingItem.Top()
+    @State static var clothingItem = ClothingItem()
     static var previews: some View {
         DetailedClothingItem(clothingItem: $clothingItem)
             .environmentObject(Closet())

@@ -9,6 +9,8 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var defaultTab = 2
+    @FetchRequest(sortDescriptors: []) var clothingItems: FetchedResults<ClothingItemData>
+    @Environment(\.managedObjectContext) var moc
     
     var body: some View {
         

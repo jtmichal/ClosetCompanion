@@ -19,6 +19,8 @@
 		A700BA212BCB7BC40011F033 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = A700BA202BCB7BC40011F033 /* Profile.swift */; };
 		A700BA252BCB7C2A0011F033 /* AddClothingItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A700BA242BCB7C2A0011F033 /* AddClothingItem.swift */; };
 		A700BA272BCB7C560011F033 /* ClothingItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A700BA262BCB7C560011F033 /* ClothingItem.swift */; };
+		A73F173F2C2E1FDC0027FE16 /* ClosetCompanion.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A73F173D2C2E1FDC0027FE16 /* ClosetCompanion.xcdatamodeld */; };
+		A73F17412C2E217E0027FE16 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73F17402C2E217E0027FE16 /* DataController.swift */; };
 		A7CF9BAA2C126A5600FEDAF1 /* DetailedClothingItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CF9BA92C126A5600FEDAF1 /* DetailedClothingItem.swift */; };
 /* End PBXBuildFile section */
 
@@ -57,6 +59,8 @@
 		A700BA202BCB7BC40011F033 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		A700BA242BCB7C2A0011F033 /* AddClothingItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddClothingItem.swift; sourceTree = "<group>"; };
 		A700BA262BCB7C560011F033 /* ClothingItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClothingItem.swift; sourceTree = "<group>"; };
+		A73F173E2C2E1FDC0027FE16 /* ClosetCompanion.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ClosetCompanion.xcdatamodel; sourceTree = "<group>"; };
+		A73F17402C2E217E0027FE16 /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 		A7CF9BA92C126A5600FEDAF1 /* DetailedClothingItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedClothingItem.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -108,6 +112,7 @@
 		A700B9EB2BCB7A590011F033 /* ClosetCompanion */ = {
 			isa = PBXGroup;
 			children = (
+				A73F173D2C2E1FDC0027FE16 /* ClosetCompanion.xcdatamodeld */,
 				A700BA1B2BCB7B1B0011F033 /* Views */,
 				A700BA1A2BCB7B0C0011F033 /* Models */,
 				A700B9EC2BCB7A590011F033 /* ClosetCompanionApp.swift */,
@@ -115,6 +120,7 @@
 				A700B9F72BCB7A5A0011F033 /* ClosetCompanion.entitlements */,
 				A700B9F82BCB7A5A0011F033 /* Info.plist */,
 				A700B9F42BCB7A5A0011F033 /* Preview Content */,
+				A73F17402C2E217E0027FE16 /* DataController.swift */,
 			);
 			path = ClosetCompanion;
 			sourceTree = "<group>";
@@ -306,7 +312,9 @@
 				A7CF9BAA2C126A5600FEDAF1 /* DetailedClothingItem.swift in Sources */,
 				A700B9EF2BCB7A590011F033 /* ContentView.swift in Sources */,
 				A700BA212BCB7BC40011F033 /* Profile.swift in Sources */,
+				A73F173F2C2E1FDC0027FE16 /* ClosetCompanion.xcdatamodeld in Sources */,
 				A700BA252BCB7C2A0011F033 /* AddClothingItem.swift in Sources */,
+				A73F17412C2E217E0027FE16 /* DataController.swift in Sources */,
 				A700BA1D2BCB7BB00011F033 /* Closet.swift in Sources */,
 				A700BA1F2BCB7BB80011F033 /* Home.swift in Sources */,
 				A700B9ED2BCB7A590011F033 /* ClosetCompanionApp.swift in Sources */,
@@ -638,6 +646,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		A73F173D2C2E1FDC0027FE16 /* ClosetCompanion.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				A73F173E2C2E1FDC0027FE16 /* ClosetCompanion.xcdatamodel */,
+			);
+			currentVersion = A73F173E2C2E1FDC0027FE16 /* ClosetCompanion.xcdatamodel */;
+			path = ClosetCompanion.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = A700B9E12BCB7A590011F033 /* Project object */;
 }

@@ -9,9 +9,9 @@ import SwiftUI
 
 class Closet: ObservableObject {
     init(clothingItem: [ClothingItem] = [ClothingItem](),
-         topsPile: [ClothingItem.Top] = [ClothingItem.Top](),
-         bottomsPile: [ClothingItem.Bottom] = [ClothingItem.Bottom](),
-         footwearPile: [ClothingItem.Footwear] = [ClothingItem.Footwear]()){
+         topsPile: [ClothingItem] = [ClothingItem](),
+         bottomsPile: [ClothingItem] = [ClothingItem](),
+         footwearPile: [ClothingItem] = [ClothingItem]()){
         
         self.clothingItem = clothingItem
         self.topsPile = topsPile
@@ -19,24 +19,21 @@ class Closet: ObservableObject {
         self.footwearPile = footwearPile
     }
     @Published var clothingItem = [ClothingItem]()
-    @Published var topsPile = [ClothingItem.Top]()
-    @Published var bottomsPile = [ClothingItem.Bottom]()
-    @Published var footwearPile = [ClothingItem.Footwear]()
+    @Published var topsPile = [ClothingItem]()
+    @Published var bottomsPile = [ClothingItem]()
+    @Published var footwearPile = [ClothingItem]()
     
-    func addTop(top: ClothingItem.Top){
+    func addTop(top: ClothingItem){
         topsPile.append(top)
+
     }
     
-    func addBottom(){
-        let new = ClothingItem.Bottom(name: "New",
-                       color: "Blue")
-        bottomsPile.append(new)
+    func addBottom(bottom: ClothingItem){
+        bottomsPile.append(bottom)
     }
     
-    func addFootwear(){
-        let new = ClothingItem.Footwear(name: "New",
-                       color: "Blue")
-        footwearPile.append(new)
+    func addFootwear(footwear: ClothingItem){
+        footwearPile.append(footwear)
     }
 }
 struct ClosetView: View {
@@ -98,15 +95,18 @@ struct ClosetView: View {
 }
 
 struct Row: View{
+    @FetchRequest(sortDescriptors: []) var clothingItems: FetchedResults<ClothingItemData>
+    @Environment(\.managedObjectContext) var moc
+    
     @EnvironmentObject var closet: Closet
     @State private var showingItemDetails = false
-    @State private var passedItem = ClothingItem.Top() //value to be passed to detailedClothingItem
+    @State private var passedItem = ClothingItem() //value to be passed to detailedClothingItem
     var itemType : String
-    var topsPile : [ClothingItem.Top]
-    var bottomsPile : [ClothingItem.Bottom]
-    var footwearPile : [ClothingItem.Footwear]
+    var topsPile : [ClothingItem]
+    var bottomsPile : [ClothingItem]
+    var footwearPile : [ClothingItem]
 
-    let new = ClothingItem.Top()
+    let new = ClothingItem()
     
     var body: some View{
         switch itemType {
@@ -134,12 +134,20 @@ struct Row: View{
         case "bottoms":
             ScrollView(.horizontal){
                 HStack(spacing:20){
-                    if !bottomsPile.isEmpty{
                         ForEach(bottomsPile) {bottom in
-                            Image(systemName: "tshirt.fill")
+                            bottom.image
+                                .resizable()
+                                .imageScale(.large)
+                                .scaledToFit()
+                                .aspectRatio(contentMode: .fit)
+                                .onTapGesture {
+                                    showingItemDetails.toggle()
+                                    passedItem = bottom;
+                                }
                         }
-                        .imageScale(.large)
-                    }
+                        .sheet(isPresented: $showingItemDetails){
+                            DetailedClothingItem(clothingItem: $passedItem)
+                        }
                 }
             }
             .padding(0.0)
@@ -147,12 +155,20 @@ struct Row: View{
         case "footwear":
             ScrollView(.horizontal){
                 HStack(spacing:20){
-                    if !footwearPile.isEmpty{
                         ForEach(footwearPile) {footwear in
-                            Image(systemName: "tshirt.fill")
+                            footwear.image
+                                .resizable()
+                                .imageScale(.large)
+                                .scaledToFit()
+                                .aspectRatio(contentMode: .fit)
+                                .onTapGesture {
+                                    showingItemDetails.toggle()
+                                    passedItem = footwear;
+                                }
                         }
-                        .imageScale(.large)
-                    }
+                        .sheet(isPresented: $showingItemDetails){
+                            DetailedClothingItem(clothingItem: $passedItem)
+                        }
                 }
             }
             .padding(0.0)

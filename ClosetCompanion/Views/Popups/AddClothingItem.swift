@@ -11,12 +11,20 @@ import PhotosUI
 
 
 struct AddClothingItem: View{
+    @FetchRequest(sortDescriptors: []) var clothingItems: FetchedResults<ClothingItemData>
+    @Environment(\.managedObjectContext) var moc
+    
+    enum ItemCategory: String, CaseIterable, Identifiable {
+        case Top, Bottom, Footwear
+        var id: Self { self }
+    }
+    
     @Environment(\.dismiss) var dismiss
-    @State private var selectedItemType: ClothingItem.ClothingType = .Top
     @State private var itemName: String = ""
     @State private var itemColor: String = ""
     @State private var photoItem: PhotosPickerItem?
     @State private var itemImage: Image = Image(systemName: "tshirt.fill")
+    @State private var itemCategory: ItemCategory = .Top
     @FocusState private var nameFieldIsFocused: Bool
     @EnvironmentObject var closet: Closet
     
@@ -25,10 +33,10 @@ struct AddClothingItem: View{
             Form{
                 Section(header: Text("Name")){
                     List{
-                        Picker("Item Type:", selection: $selectedItemType){
-                            Text("Top").tag(ClothingItem.ClothingType.Top)
-                            Text("Bottom").tag(ClothingItem.ClothingType.Bottom)
-                            Text("Footwear").tag(ClothingItem.ClothingType.Footwear)
+                        Picker("Item Type:", selection: $itemCategory){
+                            Text("Top").tag(ItemCategory.Top)
+                            Text("Bottom").tag(ItemCategory.Bottom)
+                            Text("Footwear").tag(ItemCategory.Footwear)
                         }
                     }
                     
@@ -78,8 +86,28 @@ struct AddClothingItem: View{
         }
     }
     func addTop(){
-        let new = ClothingItem.Top(name:itemName,color:itemColor,image:itemImage);
-        closet.addTop(top:new)
+        let clothingItem = ClothingItemData(context: moc)
+        clothingItem.id = UUID()
+        clothingItem.name = itemName;
+        clothingItem.color = itemColor;
+        clothingItem.image = ImageRenderer(content: itemImage).uiImage?.jpegData(compressionQuality: 0);
+        clothingItem.category = itemCategory.rawValue;
+        
+        do {try moc.save()
+        }catch{
+            print("catch: \(error)")
+        }
+        
+        let new = ClothingItem(name:itemName,color:itemColor,image:itemImage, category:itemCategory.rawValue);
+        if (itemCategory.rawValue == "Top"){
+            closet.addTop(top:new)
+        }else if (itemCategory.rawValue == "Bottom"){
+            closet.addBottom(bottom:new)
+        }else if (itemCategory.rawValue == "Footwear"){
+            closet.addFootwear(footwear: new)
+        }else{
+            print("ERROR")
+        }
         dismiss()
     }
 }
