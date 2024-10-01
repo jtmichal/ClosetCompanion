@@ -26,7 +26,6 @@ struct AddClothingItem: View{
     @State private var itemImage: Image = Image(systemName: "tshirt.fill")
     @State private var itemCategory: ItemCategory = .Top
     @FocusState private var nameFieldIsFocused: Bool
-    @EnvironmentObject var closet: Closet
     
     var body : some View{
         NavigationView {
@@ -87,6 +86,7 @@ struct AddClothingItem: View{
     }
     func addTop(){
         let clothingItem = ClothingItemData(context: moc)
+        
         clothingItem.id = UUID()
         clothingItem.name = itemName;
         clothingItem.color = itemColor;
@@ -97,17 +97,6 @@ struct AddClothingItem: View{
         }catch{
             print("catch: \(error)")
         }
-        
-        let new = ClothingItem(name:itemName,color:itemColor,image:itemImage, category:itemCategory.rawValue);
-        if (itemCategory.rawValue == "Top"){
-            closet.addTop(top:new)
-        }else if (itemCategory.rawValue == "Bottom"){
-            closet.addBottom(bottom:new)
-        }else if (itemCategory.rawValue == "Footwear"){
-            closet.addFootwear(footwear: new)
-        }else{
-            print("ERROR")
-        }
         dismiss()
     }
 }
@@ -115,6 +104,5 @@ struct AddClothingItem: View{
 struct AddClothingItem_Previews: PreviewProvider {
     static var previews: some View {
         AddClothingItem()
-            .environmentObject(Closet())
     }
 }

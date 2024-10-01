@@ -13,7 +13,6 @@ struct DetailedClothingItem: View{
     @Binding var passedItem : FetchedResults<ClothingItemData>.Element
     
     @Environment(\.dismiss) var dismiss
-    @EnvironmentObject var closet: Closet
     var body : some View{
         VStack{
             LabeledContent("Name: ", value: passedItem.name ?? String())
@@ -34,6 +33,5 @@ struct DetailedClothingItem_Previews: PreviewProvider {
     @State static var passedItem = FetchedResults<ClothingItemData>.Element()
     static var previews: some View {
         DetailedClothingItem(clothingItem: $clothingItem, passedItem: $passedItem)
-            .environmentObject(Closet())
     }
 }

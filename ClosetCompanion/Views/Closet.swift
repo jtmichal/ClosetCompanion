@@ -7,40 +7,10 @@
 
 import SwiftUI
 
-class Closet: ObservableObject {
-    init(clothingItem: [ClothingItem] = [ClothingItem](),
-         topsPile: [ClothingItem] = [ClothingItem](),
-         bottomsPile: [ClothingItem] = [ClothingItem](),
-         footwearPile: [ClothingItem] = [ClothingItem]()){
-        
-        self.clothingItem = clothingItem
-        self.topsPile = topsPile
-        self.bottomsPile = bottomsPile
-        self.footwearPile = footwearPile
-    }
-    @Published var clothingItem = [ClothingItem]()
-    @Published var topsPile = [ClothingItem]()
-    @Published var bottomsPile = [ClothingItem]()
-    @Published var footwearPile = [ClothingItem]()
-    
-    func addTop(top: ClothingItem){
-        topsPile.append(top)
-
-    }
-    
-    func addBottom(bottom: ClothingItem){
-        bottomsPile.append(bottom)
-    }
-    
-    func addFootwear(footwear: ClothingItem){
-        footwearPile.append(footwear)
-    }
-}
 struct ClosetView: View {
     
     @Environment(\.dismiss) var dismiss
     @State private var showingSheet = false
-    @EnvironmentObject var closet: Closet
     //Environment Object shares data across multiple views
     
     var body: some View {
@@ -52,7 +22,6 @@ struct ClosetView: View {
             }
             .sheet(isPresented: $showingSheet){
                 AddClothingItem()
-                    .environmentObject(closet)
             }
             .labelStyle(.iconOnly)
             .frame(maxWidth: .infinity, alignment: .trailing)
@@ -63,7 +32,7 @@ struct ClosetView: View {
                 .padding(.top, 20)
                 .padding(.leading, 10)
             ZStack {
-                Row(itemType: "tops", topsPile: closet.topsPile, bottomsPile: closet.bottomsPile, footwearPile: closet.footwearPile)
+                Row(itemType: "tops")
             }
             .frame(height: 100.0)
             .background(Color("Row_Backround"))
@@ -74,7 +43,7 @@ struct ClosetView: View {
                 .padding(.top, 40)
                 .padding(.leading, 10)
             ZStack {
-                Row(itemType: "bottoms", topsPile: closet.topsPile, bottomsPile: closet.bottomsPile, footwearPile: closet.footwearPile)
+                Row(itemType: "bottoms")
             }
             .frame(height: 100.0)
             .background(Color("Row_Backround"))
@@ -84,7 +53,7 @@ struct ClosetView: View {
                 .padding(.top, 40)
                 .padding(.leading, 10)
             ZStack {
-                Row(itemType: "footwear",topsPile: closet.topsPile, bottomsPile: closet.bottomsPile, footwearPile: closet.footwearPile)
+                Row(itemType: "footwear")
             }
             .frame(height: 100.0)
             .background(Color("Row_Backround"))
@@ -95,22 +64,20 @@ struct ClosetView: View {
 }
 
 struct Row: View{
-    @FetchRequest(sortDescriptors: []) var clothingItems: FetchedResults<ClothingItemData>
+    var filter = "Top"
+    @FetchRequest(sortDescriptors: [], predicate: NSPredicate(format: "category like 'Top'")) var clothingItems: FetchedResults<ClothingItemData>
     @Environment(\.managedObjectContext) var moc
     
-    @EnvironmentObject var closet: Closet
+    @State private var filterByCategory = "Top"
     @State private var showingItemDetails = false
     @State private var passedItem : FetchedResults<ClothingItemData>.Element = FetchedResults<ClothingItemData>.Element() //value to be passed to detailedClothingItem
     @State private var testingItem = ClothingItem()
+    
     var itemType : String
-    var topsPile : [ClothingItem]
-    var bottomsPile : [ClothingItem]
-    var footwearPile : [ClothingItem]
     var defaultImage = UIImage()
 
     let new = ClothingItem()
 
-    
     var body: some View{
         switch itemType {
         case "tops":
@@ -137,15 +104,15 @@ struct Row: View{
         case "bottoms":
             ScrollView(.horizontal){
                 HStack(spacing:20){
-                        ForEach(clothingItems) {top in
-                            Image(uiImage: UIImage(data: top.image ?? Data()) ?? defaultImage)
+                        ForEach(clothingItems) {bottom in
+                            Image(uiImage: UIImage(data: bottom.image ?? Data()) ?? defaultImage)
                                 .resizable()
                                 .imageScale(.large)
                                 .scaledToFit()
                                 .aspectRatio(contentMode: .fit)
                                 .onTapGesture {
                                     showingItemDetails.toggle()
-                                    passedItem = top;
+                                    passedItem = bottom;
                                 }
                         }
                         .sheet(isPresented: $showingItemDetails){
@@ -158,15 +125,15 @@ struct Row: View{
         case "footwear":
             ScrollView(.horizontal){
                 HStack(spacing:20){
-                    ForEach(clothingItems) {top in
-                            Image(uiImage: UIImage(data: top.image ?? Data()) ?? defaultImage)
+                    ForEach(clothingItems) {footwear in
+                            Image(uiImage: UIImage(data: footwear.image ?? Data()) ?? defaultImage)
                                 .resizable()
                                 .imageScale(.large)
                                 .scaledToFit()
                                 .aspectRatio(contentMode: .fit)
                                 .onTapGesture {
                                     showingItemDetails.toggle()
-                                    passedItem = top;
+                                    passedItem = footwear;
                                 }
                         }
                         .sheet(isPresented: $showingItemDetails){
@@ -186,6 +153,5 @@ struct Row: View{
 struct Closet_Previews: PreviewProvider {
     static var previews: some View {
         ClosetView()
-            .environmentObject(Closet())
     }
 }

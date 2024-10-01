@@ -21,21 +21,18 @@ struct ContentView: View {
                     Text("Closet")
                 }
                 .tag(1)
-                .environmentObject(Closet())
             Home()
                 .tabItem(){
                     Image(systemName: "house.fill")
                     Text("Home")
                 }
                 .tag(2)
-                .environmentObject(Closet())
             Profile()
                 .tabItem(){
                     Image(systemName: "person.fill")
                     Text("Profile")
                 }
                 .tag(3)
-                .environmentObject(Closet())
         }
     }
 }
