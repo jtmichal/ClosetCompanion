@@ -9,7 +9,6 @@ import Foundation
 import SwiftUI
 
 struct DetailedClothingItem: View{
-    @Binding var clothingItem : ClothingItem
     @Binding var passedItem : FetchedResults<ClothingItemData>.Element
     
     @Environment(\.dismiss) var dismiss
@@ -29,9 +28,8 @@ struct DetailedClothingItem: View{
 }
 
 struct DetailedClothingItem_Previews: PreviewProvider {
-    @State static var clothingItem = ClothingItem()
     @State static var passedItem = FetchedResults<ClothingItemData>.Element()
     static var previews: some View {
-        DetailedClothingItem(clothingItem: $clothingItem, passedItem: $passedItem)
+        DetailedClothingItem( passedItem: $passedItem)
     }
 }

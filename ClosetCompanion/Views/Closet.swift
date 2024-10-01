@@ -64,26 +64,30 @@ struct ClosetView: View {
 }
 
 struct Row: View{
-    var filter = "Top"
-    @FetchRequest(sortDescriptors: [], predicate: NSPredicate(format: "category like 'Top'")) var clothingItems: FetchedResults<ClothingItemData>
     @Environment(\.managedObjectContext) var moc
     
-    @State private var filterByCategory = "Top"
+    //------Fetch Requests------//
+    @FetchRequest(sortDescriptors: [], predicate: NSPredicate(format: "category like 'Top'")) var topsPile: FetchedResults<ClothingItemData>
+    
+    @FetchRequest(sortDescriptors: [], predicate: NSPredicate(format: "category like 'Bottom'")) var bottomsPile: FetchedResults<ClothingItemData>
+    
+    @FetchRequest(sortDescriptors: [], predicate: NSPredicate(format: "category like 'Footwear'")) var footwearPile: FetchedResults<ClothingItemData>
+    //--------------------------//
+    
+    //to decide when to open detailed information for given item
     @State private var showingItemDetails = false
-    @State private var passedItem : FetchedResults<ClothingItemData>.Element = FetchedResults<ClothingItemData>.Element() //value to be passed to detailedClothingItem
-    @State private var testingItem = ClothingItem()
+    //value to be passed to detailedClothingItem
+    @State private var passedItem = FetchedResults<ClothingItemData>.Element()
     
     var itemType : String
     var defaultImage = UIImage()
-
-    let new = ClothingItem()
 
     var body: some View{
         switch itemType {
         case "tops":
             ScrollView(.horizontal){
                 HStack(spacing:20){
-                    ForEach(clothingItems) {top in
+                    ForEach(topsPile) {top in
                         Image(uiImage: UIImage(data: top.image ?? Data()) ?? defaultImage)
                                 .resizable()
                                 .imageScale(.large)
@@ -95,7 +99,7 @@ struct Row: View{
                                 }
                         }
                         .sheet(isPresented: $showingItemDetails){
-                            DetailedClothingItem(clothingItem: $testingItem, passedItem: $passedItem)
+                            DetailedClothingItem(passedItem: $passedItem)
                         }
                 }
             }
@@ -104,7 +108,7 @@ struct Row: View{
         case "bottoms":
             ScrollView(.horizontal){
                 HStack(spacing:20){
-                        ForEach(clothingItems) {bottom in
+                        ForEach(bottomsPile) {bottom in
                             Image(uiImage: UIImage(data: bottom.image ?? Data()) ?? defaultImage)
                                 .resizable()
                                 .imageScale(.large)
@@ -116,7 +120,7 @@ struct Row: View{
                                 }
                         }
                         .sheet(isPresented: $showingItemDetails){
-                            DetailedClothingItem(clothingItem: $testingItem, passedItem: $passedItem)
+                            DetailedClothingItem(passedItem: $passedItem)
                         }
                 }
             }
@@ -125,7 +129,7 @@ struct Row: View{
         case "footwear":
             ScrollView(.horizontal){
                 HStack(spacing:20){
-                    ForEach(clothingItems) {footwear in
+                    ForEach(footwearPile) {footwear in
                             Image(uiImage: UIImage(data: footwear.image ?? Data()) ?? defaultImage)
                                 .resizable()
                                 .imageScale(.large)
@@ -137,7 +141,7 @@ struct Row: View{
                                 }
                         }
                         .sheet(isPresented: $showingItemDetails){
-                            DetailedClothingItem(clothingItem: $testingItem, passedItem: $passedItem)
+                            DetailedClothingItem(passedItem: $passedItem)
                         }
                 }
             }
@@ -147,7 +151,6 @@ struct Row: View{
             Image(systemName: "tshirt.fill")
         }
     }
-    
 }
 
 struct Closet_Previews: PreviewProvider {
