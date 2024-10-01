@@ -100,21 +100,24 @@ struct Row: View{
     
     @EnvironmentObject var closet: Closet
     @State private var showingItemDetails = false
-    @State private var passedItem = ClothingItem() //value to be passed to detailedClothingItem
+    @State private var passedItem : FetchedResults<ClothingItemData>.Element = FetchedResults<ClothingItemData>.Element() //value to be passed to detailedClothingItem
+    @State private var testingItem = ClothingItem()
     var itemType : String
     var topsPile : [ClothingItem]
     var bottomsPile : [ClothingItem]
     var footwearPile : [ClothingItem]
+    var defaultImage = UIImage()
 
     let new = ClothingItem()
+
     
     var body: some View{
         switch itemType {
         case "tops":
             ScrollView(.horizontal){
                 HStack(spacing:20){
-                        ForEach(topsPile) {top in
-                            top.image
+                    ForEach(clothingItems) {top in
+                        Image(uiImage: UIImage(data: top.image ?? Data()) ?? defaultImage)
                                 .resizable()
                                 .imageScale(.large)
                                 .scaledToFit()
@@ -125,7 +128,7 @@ struct Row: View{
                                 }
                         }
                         .sheet(isPresented: $showingItemDetails){
-                            DetailedClothingItem(clothingItem: $passedItem)
+                            DetailedClothingItem(clothingItem: $testingItem, passedItem: $passedItem)
                         }
                 }
             }
@@ -134,19 +137,19 @@ struct Row: View{
         case "bottoms":
             ScrollView(.horizontal){
                 HStack(spacing:20){
-                        ForEach(bottomsPile) {bottom in
-                            bottom.image
+                        ForEach(clothingItems) {top in
+                            Image(uiImage: UIImage(data: top.image ?? Data()) ?? defaultImage)
                                 .resizable()
                                 .imageScale(.large)
                                 .scaledToFit()
                                 .aspectRatio(contentMode: .fit)
                                 .onTapGesture {
                                     showingItemDetails.toggle()
-                                    passedItem = bottom;
+                                    passedItem = top;
                                 }
                         }
                         .sheet(isPresented: $showingItemDetails){
-                            DetailedClothingItem(clothingItem: $passedItem)
+                            DetailedClothingItem(clothingItem: $testingItem, passedItem: $passedItem)
                         }
                 }
             }
@@ -155,19 +158,19 @@ struct Row: View{
         case "footwear":
             ScrollView(.horizontal){
                 HStack(spacing:20){
-                        ForEach(footwearPile) {footwear in
-                            footwear.image
+                    ForEach(clothingItems) {top in
+                            Image(uiImage: UIImage(data: top.image ?? Data()) ?? defaultImage)
                                 .resizable()
                                 .imageScale(.large)
                                 .scaledToFit()
                                 .aspectRatio(contentMode: .fit)
                                 .onTapGesture {
                                     showingItemDetails.toggle()
-                                    passedItem = footwear;
+                                    passedItem = top;
                                 }
                         }
                         .sheet(isPresented: $showingItemDetails){
-                            DetailedClothingItem(clothingItem: $passedItem)
+                            DetailedClothingItem(clothingItem: $testingItem, passedItem: $passedItem)
                         }
                 }
             }
