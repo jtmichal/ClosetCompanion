@@ -11,54 +11,53 @@ struct ClosetView: View {
     
     @Environment(\.dismiss) var dismiss
     @State private var showingSheet = false
+    @State private var action: Int? = 0
     //Environment Object shares data across multiple views
     
     var body: some View {
-        
-        VStack(alignment: .leading){
-            Button("Add", systemImage: "plus"){
-                showingSheet.toggle()
-                    
-            }
-            .sheet(isPresented: $showingSheet){
-                AddClothingItem()
-            }
-            .labelStyle(.iconOnly)
-            .frame(maxWidth: .infinity, alignment: .trailing)
-            .padding(.trailing, 8)
-            .font(.system(size: 32))
-            Text("Tops")
-                .font(.title)
-                .padding(.top, 20)
-                .padding(.leading, 10)
-            ZStack {
-                Row(itemType: "tops")
-            }
-            .frame(height: 100.0)
-            .background(Color("Row_Backround"))
+        NavigationStack{
+            VStack(alignment: .leading){
+                NavigationLink(destination: AddClothingItem()){
+                    Image(systemName: "plus")
+                    .labelStyle(.iconOnly)
+                    .frame(maxWidth: .infinity, alignment: .trailing)
+                    .padding(.trailing, 8)
+                    .font(.system(size: 32))
+                }
                 
-            
-            Text("Bottoms")
-                .font(.title)
-                .padding(.top, 40)
-                .padding(.leading, 10)
-            ZStack {
-                Row(itemType: "bottoms")
+                Text("Tops")
+                    .font(.title)
+                    .padding(.top, 20)
+                    .padding(.leading, 10)
+                ZStack {
+                    Row(itemType: "tops")
+                }
+                .frame(height: 100.0)
+                .background(Color("Row_Backround"))
+                    
+                
+                Text("Bottoms")
+                    .font(.title)
+                    .padding(.top, 40)
+                    .padding(.leading, 10)
+                ZStack {
+                    Row(itemType: "bottoms")
+                }
+                .frame(height: 100.0)
+                .background(Color("Row_Backround"))
+                
+                Text("Footwear")
+                    .font(.title)
+                    .padding(.top, 40)
+                    .padding(.leading, 10)
+                ZStack {
+                    Row(itemType: "footwear")
+                }
+                .frame(height: 100.0)
+                .background(Color("Row_Backround"))
+                
+                Color.white
             }
-            .frame(height: 100.0)
-            .background(Color("Row_Backround"))
-            
-            Text("Footwear")
-                .font(.title)
-                .padding(.top, 40)
-                .padding(.leading, 10)
-            ZStack {
-                Row(itemType: "footwear")
-            }
-            .frame(height: 100.0)
-            .background(Color("Row_Backround"))
-            
-            Color.white
         }
     }
 }
@@ -83,72 +82,62 @@ struct Row: View{
     var defaultImage = UIImage()
 
     var body: some View{
-        switch itemType {
-        case "tops":
-            ScrollView(.horizontal){
-                HStack(spacing:20){
-                    ForEach(topsPile) {top in
-                        Image(uiImage: UIImage(data: top.image ?? Data()) ?? defaultImage)
-                                .resizable()
-                                .imageScale(.large)
-                                .scaledToFit()
-                                .aspectRatio(contentMode: .fit)
-                                .onTapGesture {
-                                    showingItemDetails.toggle()
-                                    passedItem = top;
-                                }
+        NavigationStack{
+            switch itemType {
+                
+            case "tops":
+                ScrollView(.horizontal){
+                    HStack(spacing:20){
+                        ForEach(topsPile) {top in
+                            NavigationLink(destination: DetailedClothingItem(passedItem: top)){
+                                Image(uiImage: UIImage(data: top.image ?? Data()) ?? defaultImage)
+                                    .resizable()
+                                    .imageScale(.large)
+                                    .scaledToFit()
+                                    .aspectRatio(contentMode: .fit)
+                            }
                         }
-                        .sheet(isPresented: $showingItemDetails){
-                            DetailedClothingItem(passedItem: $passedItem)
-                        }
+                    }
                 }
-            }
-            .padding(0.0)
-            .font(.system(size: 32))
-        case "bottoms":
-            ScrollView(.horizontal){
-                HStack(spacing:20){
+                .padding(0.0)
+                .font(.system(size: 32))
+                
+            case "bottoms":
+                ScrollView(.horizontal){
+                    HStack(spacing:20){
                         ForEach(bottomsPile) {bottom in
-                            Image(uiImage: UIImage(data: bottom.image ?? Data()) ?? defaultImage)
-                                .resizable()
-                                .imageScale(.large)
-                                .scaledToFit()
-                                .aspectRatio(contentMode: .fit)
-                                .onTapGesture {
-                                    showingItemDetails.toggle()
-                                    passedItem = bottom;
-                                }
+                            NavigationLink(destination: DetailedClothingItem(passedItem: bottom)){
+                                Image(uiImage: UIImage(data: bottom.image ?? Data()) ?? defaultImage)
+                                    .resizable()
+                                    .imageScale(.large)
+                                    .scaledToFit()
+                                    .aspectRatio(contentMode: .fit)
+                            }
                         }
-                        .sheet(isPresented: $showingItemDetails){
-                            DetailedClothingItem(passedItem: $passedItem)
-                        }
+                    }
                 }
-            }
-            .padding(0.0)
-            .font(.system(size: 32))
-        case "footwear":
-            ScrollView(.horizontal){
-                HStack(spacing:20){
-                    ForEach(footwearPile) {footwear in
-                            Image(uiImage: UIImage(data: footwear.image ?? Data()) ?? defaultImage)
-                                .resizable()
-                                .imageScale(.large)
-                                .scaledToFit()
-                                .aspectRatio(contentMode: .fit)
-                                .onTapGesture {
-                                    showingItemDetails.toggle()
-                                    passedItem = footwear;
-                                }
+                .padding(0.0)
+                .font(.system(size: 32))
+                
+            case "footwear":
+                ScrollView(.horizontal){
+                    HStack(spacing:20){
+                        ForEach(footwearPile) {footwear in
+                            NavigationLink(destination: DetailedClothingItem(passedItem: footwear)){
+                                Image(uiImage: UIImage(data: footwear.image ?? Data()) ?? defaultImage)
+                                    .resizable()
+                                    .imageScale(.large)
+                                    .scaledToFit()
+                                    .aspectRatio(contentMode: .fit)
+                            }
                         }
-                        .sheet(isPresented: $showingItemDetails){
-                            DetailedClothingItem(passedItem: $passedItem)
-                        }
+                    }
                 }
+                .padding(0.0)
+                .font(.system(size: 32))
+            default:
+                Image(systemName: "tshirt.fill")
             }
-            .padding(0.0)
-            .font(.system(size: 32))
-        default:
-            Image(systemName: "tshirt.fill")
         }
     }
 }

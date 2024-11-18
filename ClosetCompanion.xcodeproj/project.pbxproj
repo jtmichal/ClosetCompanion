@@ -19,6 +19,7 @@
 		A700BA212BCB7BC40011F033 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = A700BA202BCB7BC40011F033 /* Profile.swift */; };
 		A700BA252BCB7C2A0011F033 /* AddClothingItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A700BA242BCB7C2A0011F033 /* AddClothingItem.swift */; };
 		A700BA272BCB7C560011F033 /* ClothingItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A700BA262BCB7C560011F033 /* ClothingItem.swift */; };
+		A72BA7B42CBCBC7C002F45F9 /* DeleteConfirmation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72BA7B32CBCBC72002F45F9 /* DeleteConfirmation.swift */; };
 		A73F173F2C2E1FDC0027FE16 /* ClosetCompanion.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A73F173D2C2E1FDC0027FE16 /* ClosetCompanion.xcdatamodeld */; };
 		A73F17412C2E217E0027FE16 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73F17402C2E217E0027FE16 /* DataController.swift */; };
 		A7CF9BAA2C126A5600FEDAF1 /* DetailedClothingItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CF9BA92C126A5600FEDAF1 /* DetailedClothingItem.swift */; };
@@ -59,6 +60,7 @@
 		A700BA202BCB7BC40011F033 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		A700BA242BCB7C2A0011F033 /* AddClothingItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddClothingItem.swift; sourceTree = "<group>"; };
 		A700BA262BCB7C560011F033 /* ClothingItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClothingItem.swift; sourceTree = "<group>"; };
+		A72BA7B32CBCBC72002F45F9 /* DeleteConfirmation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteConfirmation.swift; sourceTree = "<group>"; };
 		A73F173E2C2E1FDC0027FE16 /* ClosetCompanion.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ClosetCompanion.xcdatamodel; sourceTree = "<group>"; };
 		A73F17402C2E217E0027FE16 /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 		A7CF9BA92C126A5600FEDAF1 /* DetailedClothingItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedClothingItem.swift; sourceTree = "<group>"; };
@@ -173,6 +175,7 @@
 		A700BA232BCB7C180011F033 /* Popups */ = {
 			isa = PBXGroup;
 			children = (
+				A72BA7B32CBCBC72002F45F9 /* DeleteConfirmation.swift */,
 				A700BA242BCB7C2A0011F033 /* AddClothingItem.swift */,
 				A7CF9BA92C126A5600FEDAF1 /* DetailedClothingItem.swift */,
 			);
@@ -316,6 +319,7 @@
 				A700BA252BCB7C2A0011F033 /* AddClothingItem.swift in Sources */,
 				A73F17412C2E217E0027FE16 /* DataController.swift in Sources */,
 				A700BA1D2BCB7BB00011F033 /* Closet.swift in Sources */,
+				A72BA7B42CBCBC7C002F45F9 /* DeleteConfirmation.swift in Sources */,
 				A700BA1F2BCB7BB80011F033 /* Home.swift in Sources */,
 				A700B9ED2BCB7A590011F033 /* ClosetCompanionApp.swift in Sources */,
 				A700BA272BCB7C560011F033 /* ClothingItem.swift in Sources */,
