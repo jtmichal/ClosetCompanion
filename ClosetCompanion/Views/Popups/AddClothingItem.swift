@@ -18,8 +18,9 @@ struct AddClothingItem: View{
         case Top, Bottom, Footwear
         var id: Self { self }
     }
-    
+    let clothingItem: ClothingItemData? // new item pass nil, else pass the clothingItem
     @Environment(\.dismiss) var dismiss
+    @State private var newItem = false
     @State private var itemName: String = ""
     @State private var itemColor: String = ""
     @State private var photoItem: PhotosPickerItem?
@@ -60,9 +61,19 @@ struct AddClothingItem: View{
                 }
                 HStack{
                     Spacer()
-                    
-                    Button("Add Item"){
-                        addTop()
+                        
+                    Button(newItem ? "Add Item" : "Update Item"){
+                        if newItem{
+                            addTop()
+                        }else{
+                            clothingItem?.name = itemName;
+                            do {try moc.save()
+                            }catch{
+                                print("catch: \(error)")
+                            }
+                            
+                            dismiss()
+                        }
                     }
                     .foregroundColor(.white)
                     .padding()
@@ -83,7 +94,16 @@ struct AddClothingItem: View{
                 }.listRowBackground(Color(.systemGroupedBackground))
             }
         }
+        .onAppear{
+            newItem = (clothingItem == nil)
+            if newItem == false {
+                itemName = clothingItem?.name ?? ""
+                itemColor = clothingItem?.color ?? ""
+                
+            }
+        }
     }
+    
     func addTop(){
         let clothingItem = ClothingItemData(context: moc)
         
@@ -103,6 +123,6 @@ struct AddClothingItem: View{
 
 struct AddClothingItem_Previews: PreviewProvider {
     static var previews: some View {
-        AddClothingItem()
+        AddClothingItem(clothingItem: ClothingItemData())
     }
 }

@@ -17,7 +17,7 @@ struct ClosetView: View {
     var body: some View {
         NavigationStack{
             VStack(alignment: .leading){
-                NavigationLink(destination: AddClothingItem()){
+                NavigationLink(destination: AddClothingItem(clothingItem: nil)){
                     Image(systemName: "plus")
                     .labelStyle(.iconOnly)
                     .frame(maxWidth: .infinity, alignment: .trailing)

@@ -26,41 +26,51 @@ struct DetailedClothingItem: View{
     }
     
     var body : some View{
-        ZStack{
-            VStack{
-                HStack{
-                    Spacer()
-                    Spacer()
-                    Button("Delete"){
-                        deleteIsActive = true
-                    }
-                    .foregroundColor(.white)
-                    .padding()
-                    .background(.red)
-                    .clipShape(Capsule())
-                    .buttonStyle(.borderless)
-                }
+        NavigationStack{
+            ZStack{
                 VStack{
-                    LabeledContent("Name: ", value: passedItem.name ?? String())
+                    HStack{
+                        Spacer()
+                        Spacer()
+                        Button("Delete"){
+                            deleteIsActive = true
+                        }
+                        .foregroundColor(.white)
                         .padding()
-                    LabeledContent("Color: ", value: passedItem.color ?? String())
-                        .padding()
-                    LabeledContent("Category: ", value: passedItem.category ?? String())
-                        .padding()
-                    Image(uiImage: UIImage(data: passedItem.image ?? Data()) ?? UIImage())
-                        .resizable()
-                        .frame(width: 150, height: 150)
+                        .background(.red)
+                        .clipShape(Capsule())
+                        .buttonStyle(.borderless)
+                        NavigationLink(destination: AddClothingItem(clothingItem: passedItem)){
+                            Text("Edit")
+                            .foregroundColor(.white)
+                            .padding()
+                            .background(.blue)
+                            .clipShape(Capsule())
+                            .buttonStyle(.borderless)
+                        }
+                    }
+                    VStack{
+                        LabeledContent("Name: ", value: passedItem.name ?? String())
+                            .padding()
+                        LabeledContent("Color: ", value: passedItem.color ?? String())
+                            .padding()
+                        LabeledContent("Category: ", value: passedItem.category ?? String())
+                            .padding()
+                        Image(uiImage: UIImage(data: passedItem.image ?? Data()) ?? UIImage())
+                            .resizable()
+                            .frame(width: 150, height: 150)
+                    }
+                    
+                    Spacer()
+                    Spacer()
+                    Spacer()
                 }
-        
-                Spacer()
-                Spacer()
-                Spacer()
-            }
-            
-            if deleteIsActive {
-                DeleteConfirmation(deleteIsActive: $deleteIsActive, title: "Delete Item?", message: "Are you sure you want to delete this item? This action cannot be undone.", buttonTitle: "Confirm") {
-                    removeClothingItem()
-                    dismiss()
+                
+                if deleteIsActive {
+                    DeleteConfirmation(deleteIsActive: $deleteIsActive, title: "Delete Item?", message: "Are you sure you want to delete this item? This action cannot be undone.", buttonTitle: "Confirm") {
+                        removeClothingItem()
+                        dismiss()
+                    }
                 }
             }
         }
