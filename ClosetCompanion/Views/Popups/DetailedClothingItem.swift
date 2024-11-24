@@ -9,10 +9,22 @@ import Foundation
 import SwiftUI
 
 struct DetailedClothingItem: View{
+    @FetchRequest(sortDescriptors: []) var clothingItems: FetchedResults<ClothingItemData>
     var passedItem : FetchedResults<ClothingItemData>.Element
     @State var deleteIsActive: Bool = false
+    @Environment(\.managedObjectContext) var moc
     
     @Environment(\.dismiss) var dismiss
+    
+    func removeClothingItem(){
+            moc.delete(passedItem)
+        do{
+            try moc.save()
+        } catch {
+            print("HUH")
+        }
+    }
+    
     var body : some View{
         ZStack{
             VStack{
@@ -47,7 +59,8 @@ struct DetailedClothingItem: View{
             
             if deleteIsActive {
                 DeleteConfirmation(deleteIsActive: $deleteIsActive, title: "Delete Item?", message: "Are you sure you want to delete this item? This action cannot be undone.", buttonTitle: "Confirm") {
-                    print("DONE")
+                    removeClothingItem()
+                    dismiss()
                 }
             }
         }
