@@ -8,11 +8,27 @@
 import SwiftUI
 
 struct ClosetView: View {
+    //------Fetch Requests------//
+    @FetchRequest(sortDescriptors: [], predicate: NSPredicate(format: "category like 'Top'")) var topsPile: FetchedResults<ClothingItemData>
+    
+    @FetchRequest(sortDescriptors: [], predicate: NSPredicate(format: "category like 'Bottom'")) var bottomsPile: FetchedResults<ClothingItemData>
+    
+    @FetchRequest(sortDescriptors: [], predicate: NSPredicate(format: "category like 'Footwear'")) var footwearPile: FetchedResults<ClothingItemData>
+    //--------------------------//
     
     @Environment(\.dismiss) var dismiss
     @State private var showingSheet = false
     @State private var action: Int? = 0
+    var categories: [(String, FetchedResults<ClothingItemData>)]{
+        [
+         ("Tops", topsPile),
+         ("Bottoms", bottomsPile),
+         ("Footwear", footwearPile),
+        ]
+    }
+    
     //Environment Object shares data across multiple views
+
     
     var body: some View {
         NavigationStack{
@@ -25,36 +41,17 @@ struct ClosetView: View {
                     .font(.system(size: 32))
                 }
                 
-                Text("Tops")
-                    .font(.title)
-                    .padding(.top, 20)
-                    .padding(.leading, 10)
-                ZStack {
-                    Row(itemType: "tops")
+                ForEach(categories, id:\.0){category in
+                    Text(category.0)
+                        .font(.title)
+                        .padding(.top, 20)
+                        .padding(.leading, 10)
+                    ZStack {
+                        Row(itemType: "\(category.0)", pile: category.1)
+                    }
+                    .frame(height: 140.0)
+                    .background(Color("Row_Backround"))
                 }
-                .frame(height: 100.0)
-                .background(Color("Row_Backround"))
-                    
-                
-                Text("Bottoms")
-                    .font(.title)
-                    .padding(.top, 40)
-                    .padding(.leading, 10)
-                ZStack {
-                    Row(itemType: "bottoms")
-                }
-                .frame(height: 100.0)
-                .background(Color("Row_Backround"))
-                
-                Text("Footwear")
-                    .font(.title)
-                    .padding(.top, 40)
-                    .padding(.leading, 10)
-                ZStack {
-                    Row(itemType: "footwear")
-                }
-                .frame(height: 100.0)
-                .background(Color("Row_Backround"))
                 
                 Color.white
             }
@@ -65,14 +62,6 @@ struct ClosetView: View {
 struct Row: View{
     @Environment(\.managedObjectContext) var moc
     
-    //------Fetch Requests------//
-    @FetchRequest(sortDescriptors: [], predicate: NSPredicate(format: "category like 'Top'")) var topsPile: FetchedResults<ClothingItemData>
-    
-    @FetchRequest(sortDescriptors: [], predicate: NSPredicate(format: "category like 'Bottom'")) var bottomsPile: FetchedResults<ClothingItemData>
-    
-    @FetchRequest(sortDescriptors: [], predicate: NSPredicate(format: "category like 'Footwear'")) var footwearPile: FetchedResults<ClothingItemData>
-    //--------------------------//
-    
     //to decide when to open detailed information for given item
     @State private var showingItemDetails = false
     //value to be passed to detailedClothingItem
@@ -80,64 +69,25 @@ struct Row: View{
     
     var itemType : String
     var defaultImage = UIImage()
+    var pile : FetchedResults<ClothingItemData>
 
     var body: some View{
         NavigationStack{
-            switch itemType {
-                
-            case "tops":
-                ScrollView(.horizontal){
-                    HStack(spacing:20){
-                        ForEach(topsPile) {top in
-                            NavigationLink(destination: DetailedClothingItem(passedItem: top)){
-                                Image(uiImage: UIImage(data: top.image ?? Data()) ?? defaultImage)
-                                    .resizable()
-                                    .imageScale(.large)
-                                    .scaledToFit()
-                                    .aspectRatio(contentMode: .fit)
-                            }
+            ScrollView(.horizontal){
+                HStack(spacing:20){
+                    ForEach(pile) {item in
+                        NavigationLink(destination: DetailedClothingItem(passedItem: item)){
+                            Image(uiImage: UIImage(data: item.image ?? Data()) ?? defaultImage)
+                                .resizable()
+                                .imageScale(.large)
+                                .scaledToFit()
+                                .aspectRatio(contentMode: .fit)
                         }
                     }
                 }
-                .padding(0.0)
-                .font(.system(size: 32))
-                
-            case "bottoms":
-                ScrollView(.horizontal){
-                    HStack(spacing:20){
-                        ForEach(bottomsPile) {bottom in
-                            NavigationLink(destination: DetailedClothingItem(passedItem: bottom)){
-                                Image(uiImage: UIImage(data: bottom.image ?? Data()) ?? defaultImage)
-                                    .resizable()
-                                    .imageScale(.large)
-                                    .scaledToFit()
-                                    .aspectRatio(contentMode: .fit)
-                            }
-                        }
-                    }
-                }
-                .padding(0.0)
-                .font(.system(size: 32))
-                
-            case "footwear":
-                ScrollView(.horizontal){
-                    HStack(spacing:20){
-                        ForEach(footwearPile) {footwear in
-                            NavigationLink(destination: DetailedClothingItem(passedItem: footwear)){
-                                Image(uiImage: UIImage(data: footwear.image ?? Data()) ?? defaultImage)
-                                    .resizable()
-                                    .imageScale(.large)
-                                    .scaledToFit()
-                                    .aspectRatio(contentMode: .fit)
-                            }
-                        }
-                    }
-                }
-                .padding(0.0)
-                .font(.system(size: 32))
-            default:
-                Image(systemName: "tshirt.fill")
             }
+            .padding(0.0)
+            .font(.system(size: 32))
         }
     }
 }

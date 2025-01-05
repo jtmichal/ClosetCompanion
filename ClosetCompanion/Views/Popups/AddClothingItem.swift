@@ -67,6 +67,9 @@ struct AddClothingItem: View{
                             addTop()
                         }else{
                             clothingItem?.name = itemName;
+                            clothingItem?.color = itemColor;
+                            clothingItem?.image = ImageRenderer(content: itemImage).uiImage?.jpegData(compressionQuality: 0);
+                            clothingItem?.category = itemCategory.rawValue;
                             do {try moc.save()
                             }catch{
                                 print("catch: \(error)")
